@@ -136,6 +136,7 @@ public class WidgetService extends Service {
 
                             if(layoutParams.y>(height*0.6)){
                                 stopSelf();
+                                imageClose.setVisibility(View.INVISIBLE);
                             }
                         }
 
