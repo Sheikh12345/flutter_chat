@@ -31,15 +31,7 @@ public class MainActivity extends FlutterActivity {
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(),CHANNEL).setMethodCallHandler(
                 (call, result) -> {
                     // Note: this method is invoked on the main thread.
-                    if (call.method.equals("getBatteryLevel")) {
-                        int batteryLevel = getBatteryLevel();
 
-                        if (batteryLevel != -1) {
-                            result.success(batteryLevel);
-                        } else {
-                            result.error("UNAVAILABLE", "Battery level not available.", null);
-                        }
-                    }
                     if(call.method.equals("notification")){
                         if(!Settings.canDrawOverlays(MainActivity.this)){
                             getPermission();
@@ -58,25 +50,6 @@ public class MainActivity extends FlutterActivity {
         );
 
     }
-
-
-    public int getBatteryLevel(){
-     if(VERSION.SDK_INT>=VERSION_CODES.LOLLIPOP){
-         BatteryManager batteryLevel =(BatteryManager) getSystemService(Context.BATTERY_SERVICE);
-            return batteryLevel.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-     }else {
-         IntentFilter iFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-         Intent batteryStatus = this.registerReceiver(null, iFilter);
-
-         int level = batteryStatus != null ? batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) : -1;
-         int scale = batteryStatus != null ? batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1) : -1;
-
-         double batteryPct = level / (double) scale;
-
-         return (int) (batteryPct * 100);
-     }
-    }
-
 
     public void  getPermission(){
         // check for alert window permission

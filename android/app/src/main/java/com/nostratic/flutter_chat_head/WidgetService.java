@@ -139,8 +139,6 @@ public class WidgetService extends Service {
                             }
                         }
 
-
-
                         return true;
                     case MotionEvent.ACTION_MOVE:
 //                        / calculate x & y coordinate of view
